@@ -1,0 +1,21 @@
+.typedBox{
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 30px;
+}
+
+.typedBoxelem {
+  list-style-type: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonsColoredBoxes{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: row;
+}
