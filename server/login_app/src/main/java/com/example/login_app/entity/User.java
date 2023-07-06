@@ -48,8 +48,7 @@ public class User {
 
     protected User() {}
 
-    public User(Integer id, String firstName, String lastName, String email, String pass, LocalDate birthday, UserRole userRole, List<String> adresses, List<String> phoneNumbers, List<String> technologies) {
-        this.id = id;
+    public User(String firstName, String lastName, String email, String pass, LocalDate birthday, UserRole userRole, List<String> adresses, List<String> phoneNumbers, List<String> technologies) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
