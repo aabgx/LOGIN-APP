@@ -46,20 +46,7 @@ public class User {
     @Column(nullable = true,unique = false)
     private List<String> technologies;
 
-    protected User() {}
-
-    public User(Integer id, String firstName, String lastName, String email, String pass, LocalDate birthday, UserRole userRole, List<String> adresses, List<String> phoneNumbers, List<String> technologies) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.pass = pass;
-        this.birthday = birthday;
-        this.userRole = userRole;
-        this.adresses = adresses;
-        this.phoneNumbers = phoneNumbers;
-        this.technologies = technologies;
-    }
+    public User() {}
 
     @Override
     public String toString() {
