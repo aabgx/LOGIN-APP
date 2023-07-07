@@ -2,46 +2,17 @@ package com.example.login_app.service;
 
 import com.example.login_app.dto.UserDTO;
 import com.example.login_app.entity.User;
-import com.example.login_app.entity.UserRole;
 import com.example.login_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
+@Service
 public class UserServiceImpl implements UserService{
     @Autowired
     private UserRepository userRepository;
-
-    private User convertUserDTOToUser(UserDTO userDTO){
-        String firstName = userDTO.getFirstName();
-        String lastName=userDTO.getLastName();
-        String email = userDTO.getEmail();
-        String pass = userDTO.getPass();
-        LocalDate birthday=userDTO.getBirthday();
-        UserRole userRole=userDTO.getUserRole();
-        List<String> adresses = userDTO.getAdresses();
-        List<String> phoneNumbers = userDTO.getPhoneNumbers();
-        List<String> technologies = userDTO.getTechnologies();
-
-        return new User(firstName,lastName,email,pass,birthday,userRole,adresses,phoneNumbers,technologies);
-    }
-
-    private UserDTO convertUserToUserDTO(User user){
-        String firstName = user.getFirstName();
-        String lastName=user.getLastName();
-        String email = user.getEmail();
-        String pass = user.getPass();
-        LocalDate birthday=user.getBirthday();
-        UserRole userRole=user.getUserRole();
-        List<String> adresses = user.getAdresses();
-        List<String> phoneNumbers = user.getPhoneNumbers();
-        List<String> technologies = user.getTechnologies();
-
-        return new UserDTO(firstName,lastName,email,pass,birthday,userRole,adresses,phoneNumbers,technologies);
-    }
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
@@ -83,5 +54,35 @@ public class UserServiceImpl implements UserService{
     @Override
     public void deleteUserById(Integer id) {
         userRepository.deleteById(id);
+    }
+
+    private User convertUserDTOToUser(UserDTO userDTO){
+        User user = new User();
+        user.setFirstName(userDTO.getFirstName());
+        user.setLastName(userDTO.getLastName());
+        user.setEmail(userDTO.getEmail());
+        user.setPass(userDTO.getPass());
+        user.setBirthday(userDTO.getBirthday());
+        user.setUserRole(userDTO.getUserRole());
+        user.setAdresses(userDTO.getAdresses());
+        user.setPhoneNumbers(userDTO.getPhoneNumbers());
+        user.setTechnologies(userDTO.getTechnologies());
+
+        return user;
+    }
+
+    private UserDTO convertUserToUserDTO(User user){
+        UserDTO userDTO = new UserDTO();
+        userDTO.setFirstName(user.getFirstName());
+        userDTO.setLastName(user.getLastName());
+        userDTO.setEmail(user.getEmail());
+        userDTO.setPass(user.getPass());
+        userDTO.setBirthday(user.getBirthday());
+        userDTO.setUserRole(user.getUserRole());
+        userDTO.setAdresses(user.getAdresses());
+        userDTO.setPhoneNumbers(user.getPhoneNumbers());
+        userDTO.setTechnologies(user.getTechnologies());
+
+        return userDTO;
     }
 }

@@ -30,7 +30,7 @@ public class UserDTO {
         this.technologies = technologies;
     }
 
-    protected UserDTO(){}
+    public UserDTO(){}
 
     public String getFirstName() {
         return firstName;

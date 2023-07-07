@@ -46,7 +46,7 @@ public class User {
     @Column(nullable = true,unique = false)
     private List<String> technologies;
 
-    protected User() {}
+    public User() {}
 
     public User(String firstName, String lastName, String email, String pass, LocalDate birthday, UserRole userRole, List<String> adresses, List<String> phoneNumbers, List<String> technologies) {
         this.firstName = firstName;
