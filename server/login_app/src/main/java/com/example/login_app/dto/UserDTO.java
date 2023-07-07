@@ -18,18 +18,6 @@ public class UserDTO {
     private List<String> phoneNumbers;
     private List<String> technologies;
 
-    public UserDTO(String firstName, String lastName, String email, String pass, LocalDate birthday, UserRole userRole, List<String> adresses, List<String> phoneNumbers, List<String> technologies) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.pass = pass;
-        this.birthday = birthday;
-        this.userRole = userRole;
-        this.adresses = adresses;
-        this.phoneNumbers = phoneNumbers;
-        this.technologies = technologies;
-    }
-
     public UserDTO(){}
 
     public String getFirstName() {
