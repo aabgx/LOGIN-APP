@@ -11,8 +11,8 @@ import java.util.List;
 @Table(name="users", schema="login_app_schema")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false,unique = true)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name="uid",nullable = false,unique = true)
     private Integer id;
 
     @Column(name="first_name",nullable = false,unique = false)
@@ -34,17 +34,13 @@ public class User {
     @Enumerated(EnumType.STRING)
     private UserRole userRole;
 
-    @ElementCollection
-    @Column(nullable = false,unique = false)
-    private List<String> adresses;
+    @Column(nullable = false)
+    private String adresses;
 
-    @ElementCollection
-    @Column(name="phone_numbers",nullable = false,unique = false)
-    private List<String> phoneNumbers;
+    @Column(name="phone_numbers",nullable = false)
+    private String phoneNumbers;
 
-    @ElementCollection
-    @Column(nullable = true,unique = false)
-    private List<String> technologies;
+    private String technologies;
 
     public User() {}
 
@@ -105,27 +101,27 @@ public class User {
         this.userRole = userRole;
     }
 
-    public List<String> getAdresses() {
+    public String getAdresses() {
         return adresses;
     }
 
-    public void setAdresses(List<String> adresses) {
+    public void setAdresses(String adresses) {
         this.adresses = adresses;
     }
 
-    public List<String> getPhoneNumbers() {
+    public String getPhoneNumbers() {
         return phoneNumbers;
     }
 
-    public void setPhoneNumbers(List<String> phoneNumbers) {
+    public void setPhoneNumbers(String phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public List<String> getTechnologies() {
+    public String getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(List<String> technologies) {
+    public void setTechnologies(String technologies) {
         this.technologies = technologies;
     }
 }
