@@ -1,8 +1,7 @@
-import { useState } from "react";
 import "./NewColorBox.css";
 
 const NewColorBox = (props) => {
-  const { drinkName, color, onClick } = props;
+  const { drinkName, color } = props;
   const boxStyles = {
     backgroundColor: color,
   };

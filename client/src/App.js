@@ -1,93 +1,14 @@
 import "./App.css";
-
-//import ColorBox from "./components/ColorBox";
-import TypedBox from "./components/TypedBox";
+import BoxContainer from "./components/BoxContainer";
 import NewColorBox from "./components/NewColorBox";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { DrinkContext } from "./contexts/drinkContext";
 
 function App() {
-  const [currentTypedBoxIndex, setCurrentTypedBoxIndex] = useState(0);
+  const [currentBoxContainerIndex, setCurrentBoxContainerIndex] = useState(0);
   const [currentColoredBoxIndex, setCurrentColoredBoxIndex] = useState(0);
-  const drinks = [
-    {
-      drink: "Pina Colada",
-      color: "yellow",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Negroni",
-      color: "orange",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Water",
-      color: "transparent",
-      isAlcoholic: false,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Cuba Libre",
-      color: "brown",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Champagne",
-      color: "#ffffe0",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Absinth",
-      color: "green",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Coke",
-      color: "black",
-      isAlcoholic: false,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Vanilla Syrup",
-      color: "yellow",
-      isAlcoholic: false,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Sazerac",
-      color: "#FFD580",
-      isAlcoholic: true,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Coffee",
-      color: "#C4A484",
-      isAlcoholic: false,
-      isHouseSpeciality: false,
-    },
-    {
-      drink: "Surprise",
-      color: "#FF69B4",
-      isAlcoholic: false,
-      isHouseSpeciality: true,
-    },
-    {
-      drink: "Florida Old Fashioned",
-      color: "#DDA0DD",
-      isAlcoholic: true,
-      isHouseSpeciality: true,
-    },
-    {
-      drink: "Mules Around the World",
-      color: "#DB7093",
-      isAlcoholic: true,
-      isHouseSpeciality: true,
-    },
-  ];
+
+  const drinks = useContext(DrinkContext);
 
   const getNewColoredBox = (drink) => (
     <NewColorBox
@@ -97,7 +18,7 @@ function App() {
     />
   );
 
-  const finalTypedBoxes = [
+  const drinkContainers = [
     {
       boxName: "Alcoholic",
       color: "maroon",
@@ -115,67 +36,61 @@ function App() {
     },
   ];
 
-  const currentTypedBox = () => (
-    <TypedBox
-      boxName={finalTypedBoxes[currentTypedBoxIndex].boxName}
-      color={finalTypedBoxes[currentTypedBoxIndex].color}
+  const currentBoxContainer = () => (
+    <BoxContainer
+      boxName={drinkContainers[currentBoxContainerIndex].boxName}
+      color={drinkContainers[currentBoxContainerIndex].color}
       currentIndex={currentColoredBoxIndex}
-      goToPrevious={goToPrevious}
-      goToNext={goToNext}
+      goToIndex={goToIndexColoredBox}
     >
-      {finalTypedBoxes[currentTypedBoxIndex].content.map(getNewColoredBox)}
-    </TypedBox>
+      {drinkContainers[currentBoxContainerIndex].content.map(getNewColoredBox)}
+    </BoxContainer>
   );
 
-  function goToPrevious() {
-    if (currentColoredBoxIndex > 0) {
-      setCurrentColoredBoxIndex((prevIndex) => prevIndex - 1);
-    } else {
-      setCurrentColoredBoxIndex(
-        finalTypedBoxes[currentTypedBoxIndex].content.length - 1
-      );
-    }
+  function goToIndexColoredBox(indexType) {
+    goToIndex(
+      indexType,
+      drinkContainers[currentBoxContainerIndex].content.length,
+      setCurrentColoredBoxIndex
+    );
   }
 
-  function goToNext() {
-    if (
-      currentColoredBoxIndex <
-      finalTypedBoxes[currentTypedBoxIndex].content.length - 1
-    ) {
-      setCurrentColoredBoxIndex((prevIndex) => prevIndex + 1);
-    } else {
-      setCurrentColoredBoxIndex(0);
+  function goToIndex(indexType, arrayLength, setCurrentIndex) {
+    if (indexType === "prev") {
+      setCurrentIndex((prevIndex) =>
+        prevIndex > 0 ? prevIndex - 1 : arrayLength - 1
+      );
+    } else if (indexType === "next") {
+      setCurrentIndex((prevIndex) =>
+        prevIndex < arrayLength - 1 ? prevIndex + 1 : 0
+      );
     }
   }
 
   return (
     <div className="App">
-      {currentTypedBox()}
-      <span className="buttonsTypedBoxes">
+      {currentBoxContainer()}
+      <span className="buttonsBoxContainer">
         <button
           onClick={() => {
             setCurrentColoredBoxIndex(0);
-            if (currentTypedBoxIndex > 0) {
-              setCurrentTypedBoxIndex((prevIndex) => prevIndex - 1);
-            } else {
-              setCurrentTypedBoxIndex(finalTypedBoxes.length - 1);
-            }
+            goToIndex(
+              "prev",
+              drinkContainers.length,
+              setCurrentBoxContainerIndex
+            );
           }}
-        >
-          {`< --`}
-        </button>
+        >{`< --`}</button>
         <button
           onClick={() => {
             setCurrentColoredBoxIndex(0);
-            if (currentTypedBoxIndex < finalTypedBoxes.length - 1) {
-              setCurrentTypedBoxIndex((prevIndex) => prevIndex + 1);
-            } else {
-              setCurrentTypedBoxIndex(0);
-            }
+            goToIndex(
+              "next",
+              drinkContainers.length,
+              setCurrentBoxContainerIndex
+            );
           }}
-        >
-          {`-- >`}
-        </button>
+        >{`-- >`}</button>
       </span>
     </div>
   );
