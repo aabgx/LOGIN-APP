@@ -19,13 +19,13 @@ public class UserController {
         return service.getAllUser();
     }
 
-    @DeleteMapping
-    public void deleteUserById(@RequestParam Integer id){
-        service.deleteUserById(id);
+    @DeleteMapping("/{email}")
+    public void deleteUserByEmail(@PathVariable String email){
+        service.deleteUserByEmail(email);
     }
 
-    @PutMapping
-    public UserDTO updateUser(@RequestBody UserDTO userDTO, @RequestParam String email){
+    @PutMapping("/{email}")
+    public UserDTO updateUser(@RequestBody UserDTO userDTO, @PathVariable String email){
         return service.updateUser(userDTO,email);
     }
 
