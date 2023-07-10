@@ -6,6 +6,7 @@ import jakarta.persistence.ElementCollection;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 public class UserDTO {
     private String firstName;
@@ -16,7 +17,7 @@ public class UserDTO {
     private UserRole userRole;
     private String adresses;
     private String phoneNumbers;
-    private String technologies;
+    private Set<TechnologyDTO> technologies;
 
     public UserDTO(){}
 
@@ -84,11 +85,11 @@ public class UserDTO {
         this.phoneNumbers = phoneNumbers;
     }
 
-    public String getTechnologies() {
+    public Set<TechnologyDTO> getTechnologies() {
         return technologies;
     }
 
-    public void setTechnologies(String technologies) {
+    public void setTechnologies(Set<TechnologyDTO> technologies) {
         this.technologies = technologies;
     }
 

@@ -1,18 +1,16 @@
 package com.example.login_app.entity;
 
-import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name="users", schema="login_app_schema")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="uid",nullable = false,unique = true)
+    @Column(name="uid",unique = true)
     private Integer id;
 
     @Column(name="first_name",nullable = false,unique = false)
@@ -40,7 +38,21 @@ public class User {
     @Column(name="phone_numbers",nullable = false)
     private String phoneNumbers;
 
-    private String technologies;
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name="users_technologies", schema="login_app_schema",joinColumns = @JoinColumn(name="user_id"), inverseJoinColumns = @JoinColumn(name="technology_id"))
+    private Set<Technology> technologies;
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Set<Technology> getTechnologies() {
+        return technologies;
+    }
+
+    public void setTechnologies(Set<Technology> technologies) {
+        this.technologies = technologies;
+    }
 
     public User() {}
 
@@ -118,13 +130,5 @@ public class User {
 
     public void setPhoneNumbers(String phoneNumbers) {
         this.phoneNumbers = phoneNumbers;
-    }
-
-    public String getTechnologies() {
-        return technologies;
-    }
-
-    public void setTechnologies(String technologies) {
-        this.technologies = technologies;
     }
 }

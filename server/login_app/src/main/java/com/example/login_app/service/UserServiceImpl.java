@@ -1,6 +1,8 @@
 package com.example.login_app.service;
 
+import com.example.login_app.dto.TechnologyDTO;
 import com.example.login_app.dto.UserDTO;
+import com.example.login_app.entity.Technology;
 import com.example.login_app.entity.User;
 import com.example.login_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +10,8 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -69,7 +72,13 @@ public class UserServiceImpl implements UserService{
         user.setUserRole(userDTO.getUserRole());
         user.setAdresses(userDTO.getAdresses());
         user.setPhoneNumbers(userDTO.getPhoneNumbers());
-        user.setTechnologies(userDTO.getTechnologies());
+
+        Set<Technology> techs = userDTO.getTechnologies()
+                .stream()
+                .map(this::convertTechnologyDTOToTechnology)
+                .collect(Collectors.toSet());
+
+        user.setTechnologies(techs);
 
         return user;
     }
@@ -84,8 +93,30 @@ public class UserServiceImpl implements UserService{
         userDTO.setUserRole(user.getUserRole());
         userDTO.setAdresses(user.getAdresses());
         userDTO.setPhoneNumbers(user.getPhoneNumbers());
-        userDTO.setTechnologies(user.getTechnologies());
+
+        Set<TechnologyDTO> techsDTO = user.getTechnologies()
+                .stream()
+                .map(this::convertTechnologyToTechnologyDTO)
+                .collect(Collectors.toSet());
+
+        userDTO.setTechnologies(techsDTO);
 
         return userDTO;
     }
+
+    private TechnologyDTO convertTechnologyToTechnologyDTO(Technology tech){
+        TechnologyDTO techDTO=new TechnologyDTO();
+        techDTO.setId(tech.getId());
+        techDTO.setName(tech.getName());
+
+        return techDTO;
+    }
+    private Technology convertTechnologyDTOToTechnology(TechnologyDTO techDTO){
+        Technology tech=new Technology();
+        tech.setId(techDTO.getId());
+        tech.setName(techDTO.getName());
+
+        return tech;
+    }
+
 }
