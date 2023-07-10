@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements UserService{
@@ -52,8 +53,10 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public void deleteUserById(Integer id) {
-        userRepository.deleteById(id);
+    public void deleteUserByEmail(String email) {
+        User user = userRepository.findByEmail(email).get();
+
+        userRepository.deleteById(user.getId());
     }
 
     private User convertUserDTOToUser(UserDTO userDTO){

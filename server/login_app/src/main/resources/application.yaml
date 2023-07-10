@@ -1,0 +1,7 @@
+spring:
+ datasource:
+   url: jdbc:postgresql://localhost:5432/login_app
+   username: postgres
+   password: andreea
+ jpa:
+  show-sql: true
