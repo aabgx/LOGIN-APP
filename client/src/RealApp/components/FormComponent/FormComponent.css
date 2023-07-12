@@ -1,0 +1,73 @@
+.formTitle,.formMessage,.error{
+    font-family: "Fredoka", sans-serif;
+    width: 400px;
+    text-align: start;
+    margin:0;
+}
+
+.error{
+    display: flex;
+    justify-content: center;
+    color: rgb(255, 0, 0);
+    font-size: 15px;
+    font-weight: 600;
+    border-style: dotted;
+    border-width: 1px;
+    border-color: #cb2d18fa;
+    border-radius: 15px;
+    margin-top: 10px;
+}
+
+.errorMessage{
+    height: 1.5rem;
+}
+
+.formTitle{
+    font-size: 30px;
+}
+
+.formMessage{
+    font-size: 17px;
+    font-weight: 600;
+}
+
+form{
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.formButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 400px;
+    height: 20px;
+    padding: 12px 24px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    background-color: #2c6919;
+    color: #fff;
+
+    transition: 0.3s;
+}
+
+.formButton:hover {
+    background-color: #38a759ec;
+}
+
+.formButtonDisabled{
+    background-color: #4c4e4c;
+    cursor: not-allowed;
+}
+
+.inputs{
+    margin-top: 50px;
+    margin-bottom: 20px;
+}

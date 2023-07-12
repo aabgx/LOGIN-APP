@@ -1,97 +1,79 @@
 import "./App.css";
-import BoxContainer from "./components/BoxContainer";
-import NewColorBox from "./components/NewColorBox";
-import { useContext, useState } from "react";
-import { DrinkContext } from "./contexts/drinkContext";
+import { useContext, useState, useEffect } from "react";
+import Input from "./RealApp/components/Input";
+import FormComponent from "./RealApp/components/FormComponent";
+import { FormContext } from "./RealApp/contexts/formContext";
 
 function App() {
-  const [currentBoxContainerIndex, setCurrentBoxContainerIndex] = useState(0);
-  const [currentColoredBoxIndex, setCurrentColoredBoxIndex] = useState(0);
+  const inputPropsLogin = useContext(FormContext);
 
-  const drinks = useContext(DrinkContext);
+  const defaultLoginValues = {
+    email: "",
+    pass: "",
+  };
 
-  const getNewColoredBox = (drink) => (
-    <NewColorBox
-      key={drink.drink}
-      drinkName={drink.drink}
-      color={drink.color}
+  const [loginValues, setLoginValues] = useState(defaultLoginValues);
+  const [errors, setErrors] = useState({
+    email: "",
+    pass: "",
+  });
+  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  const onChangeHandler = (e) => {
+    setLoginValues({ ...loginValues, [e.target.name]: e.target.value });
+  };
+
+  const getNewInput = (input) => (
+    <Input
+      key={input.name}
+      type={input.type}
+      id={input.id}
+      name={input.name}
+      placeholder={input.placeholder}
+      label={input.label}
+      inputValue={loginValues[input.name]}
+      onChange={onChangeHandler}
     />
   );
 
-  const drinkContainers = [
-    {
-      boxName: "Alcoholic",
-      color: "maroon",
-      content: drinks.filter((drink) => drink.isAlcoholic),
-    },
-    {
-      boxName: "NonAlcoholic",
-      color: "mediumSeaGreen",
-      content: drinks.filter((drink) => !drink.isAlcoholic),
-    },
-    {
-      boxName: "HouseSpecialities",
-      color: "rosyBrown",
-      content: drinks.filter((drink) => drink.isHouseSpeciality),
-    },
-  ];
+  const isEmail = (email) =>
+    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
-  const currentBoxContainer = () => (
-    <BoxContainer
-      boxName={drinkContainers[currentBoxContainerIndex].boxName}
-      color={drinkContainers[currentBoxContainerIndex].color}
-      currentIndex={currentColoredBoxIndex}
-      goToIndex={goToIndexColoredBox}
-    >
-      {drinkContainers[currentBoxContainerIndex].content.map(getNewColoredBox)}
-    </BoxContainer>
-  );
-
-  function goToIndexColoredBox(indexType) {
-    goToIndex(
-      indexType,
-      drinkContainers[currentBoxContainerIndex].content.length,
-      setCurrentColoredBoxIndex
-    );
-  }
-
-  function goToIndex(indexType, arrayLength, setCurrentIndex) {
-    if (indexType === "prev") {
-      setCurrentIndex((prevIndex) =>
-        prevIndex > 0 ? prevIndex - 1 : arrayLength - 1
-      );
-    } else if (indexType === "next") {
-      setCurrentIndex((prevIndex) =>
-        prevIndex < arrayLength - 1 ? prevIndex + 1 : 0
-      );
+  useEffect(() => {
+    if (!isEmail(loginValues.email) && loginValues.pass.length > 0) {
+      setDisableSubmit(true);
+      setErrors({ email: "email must be in the format example@mail.com" });
+      return;
     }
-  }
+
+    setDisableSubmit(false);
+    setErrors({});
+  }, [loginValues.email, loginValues.pass]);
+
+  const onSubmitHandler = (e) => {
+    e.preventDefault();
+
+    setLoginValues(defaultLoginValues);
+  };
 
   return (
     <div className="App">
-      {currentBoxContainer()}
-      <span className="buttonsBoxContainer">
-        <button
-          onClick={() => {
-            setCurrentColoredBoxIndex(0);
-            goToIndex(
-              "prev",
-              drinkContainers.length,
-              setCurrentBoxContainerIndex
-            );
-          }}
-        >{`< --`}</button>
-        <button
-          onClick={() => {
-            setCurrentColoredBoxIndex(0);
-            goToIndex(
-              "next",
-              drinkContainers.length,
-              setCurrentBoxContainerIndex
-            );
-          }}
-        >{`-- >`}</button>
-      </span>
+      <FormComponent
+        title="Welcome back!"
+        message="Enter your credentials to access your account"
+        buttonText="LOG IN"
+        onSubmit={onSubmitHandler}
+        disableSubmit={disableSubmit}
+      >
+        {inputPropsLogin.map(getNewInput)}
+        <div className="errorMessage">
+          {Object.entries(errors).map(([key, error]) => (
+            <span className="error" key={`${key}: ${error}`}>
+              {key}: {error}
+            </span>
+          ))}
+        </div>
+      </FormComponent>
     </div>
   );
 }
