@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import App from "./App";
-import { DrinkContextProvider } from "./contexts/drinkContext";
+import { FormContextProvider } from "./RealApp/contexts/formContext";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <DrinkContextProvider>
+    <FormContextProvider>
       <App />
-    </DrinkContextProvider>
+    </FormContextProvider>
   </React.StrictMode>
 );

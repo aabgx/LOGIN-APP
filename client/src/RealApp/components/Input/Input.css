@@ -1,0 +1,26 @@
+div {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+}
+
+label {
+    font-family: "Fredoka", sans-serif;
+}
+
+input::placeholder{
+    color: rgba(0, 0, 0, 0.2);
+}
+
+input{
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    width: 400px;
+    height: 20px;
+}
+
+input:hover {
+    border: 2px dotted #2c6919;
+    transition: 0.5s;
+}
