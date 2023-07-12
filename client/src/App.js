@@ -6,11 +6,17 @@ import { FormContext } from "./RealApp/contexts/formContext";
 
 function App() {
   const inputPropsLogin = useContext(FormContext);
-  const [loginValues, setLoginValues] = useState({
+
+  const defaultLoginValues = {
+    email: "",
+    pass: "",
+  };
+
+  const [loginValues, setLoginValues] = useState(defaultLoginValues);
+  const [errors, setErrors] = useState({
     email: "",
     pass: "",
   });
-  const [errors, setErrors] = useState({});
   const [disableSubmit, setDisableSubmit] = useState(false);
 
   const onChangeHandler = (e) => {
@@ -34,21 +40,20 @@ function App() {
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
 
   useEffect(() => {
-    const errors = {};
-    if (!isEmail(loginValues.email)) {
+    if (!isEmail(loginValues.email) && loginValues.pass.length > 0) {
       setDisableSubmit(true);
-      errors.email = "email must be in the format example@mail.com";
-    } else {
-      setDisableSubmit(false);
+      setErrors({ email: "email must be in the format example@mail.com" });
+      return;
     }
-    setErrors(errors);
-  }, [loginValues.email]);
+
+    setDisableSubmit(false);
+    setErrors({});
+  }, [loginValues.email, loginValues.pass]);
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
-    setLoginValues({ email: "", pass: "" });
-    console.log({ loginValues });
+    setLoginValues(defaultLoginValues);
   };
 
   return (
@@ -61,11 +66,13 @@ function App() {
         disableSubmit={disableSubmit}
       >
         {inputPropsLogin.map(getNewInput)}
-        {Object.entries(errors).map(([key, error]) => (
-          <span className="error" key={`${key}: ${error}`}>
-            {key}: {error}
-          </span>
-        ))}
+        <div className="errorMessage">
+          {Object.entries(errors).map(([key, error]) => (
+            <span className="error" key={`${key}: ${error}`}>
+              {key}: {error}
+            </span>
+          ))}
+        </div>
       </FormComponent>
     </div>
   );
