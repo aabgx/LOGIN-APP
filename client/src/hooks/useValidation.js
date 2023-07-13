@@ -11,25 +11,12 @@ function useValidation(fieldValues, validationType) {
 
   const isEmail = (email) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-
-  function isPassword(password) {
-    if (password.length < 8) {
-      return false;
-    }
-
-    if (!/[a-z]/.test(password)) {
-      return false;
-    }
-
-    if (!/[A-Z]/.test(password)) {
-      return false;
-    }
-    if (!/\d/.test(password)) {
-      return false;
-    }
-    return true;
-  }
-
+  const isPassword = (password) =>
+    password.length < 8 ||
+    !/[a-z]/.test(password) ||
+    !/[A-Z]/.test(password) ||
+    !/\d/.test(password);
+  const isAddress = (address = "") => address.includes("street");
   const isName = (name) => /^[A-Z][a-z]+$/.test(name);
 
   const errorObj = {
@@ -66,9 +53,18 @@ function useValidation(fieldValues, validationType) {
           "Last name must start with a capital letter and contain only letters",
       },
       {
-        errorCond: !/^\d{10}$/.test(fieldValues.phone),
+        errorCond:
+          !/^\d{10}$/.test(fieldValues.phone) &&
+          Object.values(fieldValues).some((value) => value.length > 0),
         errorType: "phone",
         message: "Phone number must contain 10 digits",
+      },
+      {
+        errorCond:
+          !isAddress(fieldValues.address) &&
+          Object.values(fieldValues).some((value) => value.length > 0),
+        errorType: "address",
+        message: "Address must contaion the word 'street'",
       },
       {
         errorCond: Object.values(fieldValues).some(

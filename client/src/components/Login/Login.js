@@ -5,7 +5,7 @@ import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
 
 const Login = () => {
-  const [inputPropsLogin, inputPropsRegister] = useContext(FormContext);
+  const [inputPropsLogin] = useContext(FormContext);
 
   const defaultLoginValues = {
     email: "",
@@ -38,7 +38,7 @@ const Login = () => {
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-
+    console.log("loginValues", loginValues);
     setLoginValues(defaultLoginValues);
   };
 

@@ -5,7 +5,7 @@ import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
 
 const Register = () => {
-  const [inputPropsLogin, inputPropsRegister] = useContext(FormContext);
+  const [_, inputPropsRegister] = useContext(FormContext);
 
   const defaultRegisterValues = {
     email: "",
