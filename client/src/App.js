@@ -1,8 +1,9 @@
 import "./App.css";
 import { useContext, useState, useEffect } from "react";
-import Input from "./RealApp/components/Input";
-import FormComponent from "./RealApp/components/FormComponent";
-import { FormContext } from "./RealApp/contexts/formContext";
+import Input from "./components/Input";
+import FormComponent from "./components/FormComponent";
+import { FormContext } from "./contexts/formContext";
+import useValidation from "./hooks/useValidation";
 
 function App() {
   const inputPropsLogin = useContext(FormContext);
@@ -13,11 +14,9 @@ function App() {
   };
 
   const [loginValues, setLoginValues] = useState(defaultLoginValues);
-  const [errors, setErrors] = useState({
-    email: "",
-    pass: "",
-  });
-  const [disableSubmit, setDisableSubmit] = useState(false);
+
+  const { errors, disableSubmit: disableSubmitHook } =
+    useValidation(loginValues);
 
   const onChangeHandler = (e) => {
     setLoginValues({ ...loginValues, [e.target.name]: e.target.value });
@@ -36,20 +35,6 @@ function App() {
     />
   );
 
-  const isEmail = (email) =>
-    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
-
-  useEffect(() => {
-    if (!isEmail(loginValues.email) && loginValues.pass.length > 0) {
-      setDisableSubmit(true);
-      setErrors({ email: "email must be in the format example@mail.com" });
-      return;
-    }
-
-    setDisableSubmit(false);
-    setErrors({});
-  }, [loginValues.email, loginValues.pass]);
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
 
@@ -63,13 +48,13 @@ function App() {
         message="Enter your credentials to access your account"
         buttonText="LOG IN"
         onSubmit={onSubmitHandler}
-        disableSubmit={disableSubmit}
+        disableSubmit={disableSubmitHook}
       >
         {inputPropsLogin.map(getNewInput)}
         <div className="errorMessage">
           {Object.entries(errors).map(([key, error]) => (
             <span className="error" key={`${key}: ${error}`}>
-              {key}: {error}
+              {error}
             </span>
           ))}
         </div>
