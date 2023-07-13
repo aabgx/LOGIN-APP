@@ -5,4 +5,21 @@
   justify-content: center;
   height: 100vh;
   flex-direction: column;
+  gap:2rem;
+}
+
+
+.switchForm{
+  margin-top: 1rem;
+  transition:0.3s
+}
+.switchForm:hover{
+  padding: 5px 10px;
+  cursor: pointer;
+  outline: 1px solid;
+  border-radius: 5px;
+}
+
+.switch{
+  height: 3rem;
 }

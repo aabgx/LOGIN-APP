@@ -1,7 +1,18 @@
-body {
+* {
   margin: 0;
   padding: 0;
   box-sizing: content-box;
+}
+
+button,input,a{
+  border: none;
+  outline: none;
+  text-decoration: none;
+  background: none;
+}
+
+button:focus,input:focus,a:focus{
+  outline: none;
 }
 
 .myDiv{
@@ -11,3 +22,4 @@ body {
   align-items: center;
   justify-content: center;
 }
+
