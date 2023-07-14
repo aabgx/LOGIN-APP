@@ -1,64 +1,26 @@
+import React, { useState } from "react";
 import "./App.css";
-import { useContext, useState, useEffect } from "react";
-import Input from "./components/Input";
-import FormComponent from "./components/FormComponent";
-import { FormContext } from "./contexts/formContext";
-import useValidation from "./hooks/useValidation";
+import Login from "./components/Login";
+import Register from "./components/Register";
 
 function App() {
-  const inputPropsLogin = useContext(FormContext);
+  const [isLogin, setIsLogin] = useState(true);
+  const buttonText = isLogin
+    ? "Don't have an account? Sign up"
+    : "Have an account? Log in";
 
-  const defaultLoginValues = {
-    email: "",
-    pass: "",
-  };
-
-  const [loginValues, setLoginValues] = useState(defaultLoginValues);
-
-  const { errors, disableSubmit: disableSubmitHook } =
-    useValidation(loginValues);
-
-  const onChangeHandler = (e) => {
-    setLoginValues({ ...loginValues, [e.target.name]: e.target.value });
-  };
-
-  const getNewInput = (input) => (
-    <Input
-      key={input.name}
-      type={input.type}
-      id={input.id}
-      name={input.name}
-      placeholder={input.placeholder}
-      label={input.label}
-      inputValue={loginValues[input.name]}
-      onChange={onChangeHandler}
-    />
-  );
-
-  const onSubmitHandler = (e) => {
-    e.preventDefault();
-
-    setLoginValues(defaultLoginValues);
+  const handleToggle = () => {
+    setIsLogin(!isLogin);
   };
 
   return (
     <div className="App">
-      <FormComponent
-        title="Welcome back!"
-        message="Enter your credentials to access your account"
-        buttonText="LOG IN"
-        onSubmit={onSubmitHandler}
-        disableSubmit={disableSubmitHook}
-      >
-        {inputPropsLogin.map(getNewInput)}
-        <div className="errorMessage">
-          {Object.entries(errors).map(([key, error]) => (
-            <span className="error" key={`${key}: ${error}`}>
-              {error}
-            </span>
-          ))}
-        </div>
-      </FormComponent>
+      {isLogin ? <Login /> : <Register />}
+      <div className="switch">
+        <button className="switchForm" onClick={handleToggle}>
+          {buttonText}
+        </button>
+      </div>
     </div>
   );
 }

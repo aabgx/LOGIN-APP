@@ -10,10 +10,12 @@ label {
 }
 
 input::placeholder{
+    padding: 0 5px;
     color: rgba(0, 0, 0, 0.2);
 }
 
 input{
+    border:1px solid black;
     border-color: rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     width: 400px;
@@ -21,6 +23,5 @@ input{
 }
 
 input:hover {
-    border: 2px dotted #2c6919;
-    transition: 0.5s;
+    outline: 1px dotted black;
 }
