@@ -10,13 +10,17 @@ function App() {
     ? "Don't have an account? Sign up"
     : "Have an account? Log in";
 
-  useEffect(() => {
-    async function makeCall() {
-      const response = axiosInstance.get("/todos/1");
-      console.log(response);
-    }
-    makeCall();
-  }, []);
+  // useEffect(() => {
+  //   async function makeCall() {
+  //     try {
+  //       const response = await axiosInstance.get("/users");
+  //       console.log(response);
+  //     } catch (err) {
+  //       console.log(err);
+  //     }
+  //   }
+  //   makeCall();
+  // }, []);
 
   const handleToggle = () => {
     setIsLogin(!isLogin);
