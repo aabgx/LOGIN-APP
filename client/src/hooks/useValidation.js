@@ -4,6 +4,11 @@ function useValidation(fieldValues, validationType) {
   const [errors, setErrors] = useState({
     email: "",
     pass: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    beginning: "",
     general: "",
   });
 
@@ -12,26 +17,32 @@ function useValidation(fieldValues, validationType) {
   const isEmail = (email) =>
     /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(email);
   const isPassword = (password) =>
-    password.length < 8 ||
-    !/[a-z]/.test(password) ||
-    !/[A-Z]/.test(password) ||
-    !/\d/.test(password);
+    password.length > 8 &&
+    /[a-z]/.test(password) &&
+    /[A-Z]/.test(password) &&
+    /\d/.test(password);
   const isAddress = (address = "") => address.includes("street");
   const isName = (name) => /^[A-Z][a-z]+$/.test(name);
+
+  function checkFollowingEmptyFields(current) {
+    const keys = Object.keys(fieldValues);
+    const currentIndex = keys.indexOf(current);
+    const keysAfterCurrent = keys.slice(currentIndex + 1);
+
+    return keysAfterCurrent.some((key) => fieldValues[key] !== "");
+  }
 
   const errorObj = {
     register: [
       {
         errorCond:
-          !isEmail(fieldValues.email) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          !isEmail(fieldValues.email) && checkFollowingEmptyFields("email"),
         errorType: "email",
         message: "Email must be in the format example@mail.com",
       },
       {
         errorCond:
-          !isPassword(fieldValues.pass) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          !isPassword(fieldValues.pass) && checkFollowingEmptyFields("pass"),
         errorType: "pass",
         message:
           "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one number",
@@ -39,7 +50,7 @@ function useValidation(fieldValues, validationType) {
       {
         errorCond:
           !isName(fieldValues.firstName) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          checkFollowingEmptyFields("firstName"),
         errorType: "firstName",
         message:
           "First name must start with a capital letter and contain only letters",
@@ -47,7 +58,7 @@ function useValidation(fieldValues, validationType) {
       {
         errorCond:
           !isName(fieldValues.lastName) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          checkFollowingEmptyFields("lastName"),
         errorType: "lastName",
         message:
           "Last name must start with a capital letter and contain only letters",
@@ -55,14 +66,14 @@ function useValidation(fieldValues, validationType) {
       {
         errorCond:
           !/^\d{10}$/.test(fieldValues.phone) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          checkFollowingEmptyFields("phone"),
         errorType: "phone",
         message: "Phone number must contain 10 digits",
       },
       {
         errorCond:
           !isAddress(fieldValues.address) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          checkFollowingEmptyFields("address"),
         errorType: "address",
         message: "Address must contaion the word 'street'",
       },
@@ -71,21 +82,21 @@ function useValidation(fieldValues, validationType) {
           (value) => value.length === 0
         ),
         errorType: "general",
-        message: "All fields are required",
+        message: "",
       },
     ],
     login: [
       {
         errorCond:
-          !isEmail(fieldValues.email) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          !isEmail(fieldValues.email) && checkFollowingEmptyFields("email"),
         errorType: "email",
         message: "Email must be in the format example@mail.com",
       },
+      //rezolva asta cu specificitatea
       {
         errorCond:
           !isPassword(fieldValues.pass) &&
-          Object.values(fieldValues).some((value) => value.length > 0),
+          Object.values(fieldValues).every((value) => value.length > 0),
         errorType: "pass",
         message:
           "Password must be at least 8 characters long and contain at least one lowercase letter, one uppercase letter, and one number",
@@ -95,7 +106,7 @@ function useValidation(fieldValues, validationType) {
           (value) => value.length === 0
         ),
         errorType: "general",
-        message: "All fields are required",
+        message: "",
       },
     ],
   };
