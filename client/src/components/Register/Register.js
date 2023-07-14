@@ -58,11 +58,14 @@ const Register = () => {
     >
       {inputPropsRegister.map(getNewInput)}
       <div className="errorMessage">
-        {Object.entries(errors).map(([key, error]) => (
-          <span className="error" key={`${key}: ${error}`}>
-            {error}
-          </span>
-        ))}
+        {Object.entries(errors).map(
+          ([key, error]) =>
+            error !== "" && (
+              <span className="error" key={`${key}: ${error}`}>
+                {error}
+              </span>
+            )
+        )}
       </div>
     </FormComponent>
   );
