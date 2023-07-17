@@ -5,3 +5,7 @@ spring:
    password: andreea
  jpa:
   show-sql: true
+
+app:
+  jwtSecret: secret
+  jwtExpirationMs: 86400000
