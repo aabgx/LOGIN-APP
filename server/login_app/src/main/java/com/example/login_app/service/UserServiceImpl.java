@@ -4,7 +4,6 @@ import com.example.login_app.dto.TechnologyDTO;
 import com.example.login_app.dto.UserDTO;
 import com.example.login_app.entity.Technology;
 import com.example.login_app.entity.User;
-import com.example.login_app.exception.EmailAlreadyInUseException;
 import com.example.login_app.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +20,6 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserDTO saveUser(UserDTO userDTO) {
-        if(userRepository.findByEmail(userDTO.getEmail()).isPresent()){
-            throw new EmailAlreadyInUseException(userDTO.getEmail());
-        }
-//        userRepository.findByEmail(userDTO.getEmail()).orElseThrow(() -> new EmailAlreadyInUseException(userDTO.getEmail()));
         User user = convertUserDTOToUser(userDTO);
         User result = userRepository.save(user);
         return convertUserToUserDTO(result);
