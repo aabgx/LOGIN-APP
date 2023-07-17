@@ -1,7 +1,6 @@
 package com.example.login_app.service;
 
 import com.example.login_app.dto.UserDTO;
-import com.example.login_app.entity.User;
 
 import java.util.List;
 

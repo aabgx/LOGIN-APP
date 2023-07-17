@@ -24,7 +24,7 @@ public class UserServiceImpl implements UserService{
         if(userRepository.findByEmail(userDTO.getEmail()).isPresent()){
             throw new EmailAlreadyInUseException(userDTO.getEmail());
         }
-//        userRepository.findByEmail(userDTO.getEmail()).orElseThrow(() -> new EmailAlreadyInUseException(userDTO.getEmail()));
+
         User user = convertUserDTOToUser(userDTO);
         User result = userRepository.save(user);
         return convertUserToUserDTO(result);
@@ -45,7 +45,6 @@ public class UserServiceImpl implements UserService{
         try{
         userDB = userRepository.findByEmail(email).orElseThrow(NoSuchElementException::new);
         }catch(NoSuchElementException ex){
-            //no operation
         }
 
         userDB.setAdresses(user.getAdresses());
