@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import Input from "../Input";
 import { FormContext } from "../../contexts/formContext";
 import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
+import axiosInstance from "../../services/axios";
 
 const Login = () => {
   const [inputPropsLogin] = useContext(FormContext);
@@ -36,9 +37,28 @@ const Login = () => {
     />
   );
 
+  const putRequest = async function (email) {
+    try {
+      const response = await axiosInstance.put(`/users/${email}`, {
+        firstName: "Peter",
+        lastName: "Borza",
+        email: email,
+        pass: "parola",
+        birthday: "1985-03-12",
+        userRole: "USER",
+        adresses: "whetever1",
+        phoneNumbers: "0000000000",
+        technologies: [],
+      });
+      console.log(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    console.log("loginValues", loginValues);
+    putRequest(loginValues.email);
     setLoginValues(defaultLoginValues);
   };
 
