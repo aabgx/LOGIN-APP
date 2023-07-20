@@ -1,39 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { Routes, Route, Link } from "react-router-dom";
 import "./App.css";
 import Login from "./components/Login";
 import Register from "./components/Register";
-import axiosInstance from "./services/axios";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
-  const buttonText = isLogin
-    ? "Don't have an account? Sign up"
-    : "Have an account? Log in";
-
-  // useEffect(() => {
-  //   async function makeCall() {
-  //     try {
-  //       const response = await axiosInstance.get("/users");
-  //       console.log(response);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   makeCall();
-  // }, []);
-
-  const handleToggle = () => {
-    setIsLogin(!isLogin);
-  };
-
   return (
     <div className="App">
-      {isLogin ? <Login /> : <Register />}
-      <div className="switch">
-        <button className="switchForm" onClick={handleToggle}>
-          {buttonText}
-        </button>
-      </div>
+      <nav className="navbar">
+        <ul className="navbar-menu">
+          <li>
+            <Link to="/" className="navbar-link">
+              <span className="btnText">LOGIN</span>
+            </Link>
+          </li>
+          <li>
+            <Link to="/register" className="navbar-link">
+              <span className="btnText">REGISTER</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+      </Routes>
     </div>
   );
 }

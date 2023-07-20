@@ -1,12 +1,21 @@
 import React, { useState, useContext, useEffect } from "react";
 import Input from "../Input";
 import { FormContext } from "../../contexts/formContext";
+import { AppContext } from "../../contexts/appContext";
 import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
-import axiosInstance from "../../services/axios";
+import UserList from "../UserList/UserList.js";
+import {
+  putRequest,
+  getRequest,
+  deleteRequest,
+  postRequest,
+} from "../../services/requests";
 
 const Login = () => {
   const [inputPropsLogin] = useContext(FormContext);
+  const { users, setUsers } = useContext(AppContext);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const defaultLoginValues = {
     email: "",
@@ -37,30 +46,43 @@ const Login = () => {
     />
   );
 
-  const putRequest = async function (email) {
-    try {
-      const response = await axiosInstance.put(`/users/${email}`, {
-        firstName: "Peter",
-        lastName: "Borza",
-        email: email,
-        pass: "parola",
-        birthday: "1985-03-12",
-        userRole: "USER",
-        adresses: "whetever1",
-        phoneNumbers: "0000000000",
-        technologies: [],
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
+  const userDetails = {
+    firstName: "Peter",
+    lastName: "Borza",
+    email: "peter.peter@gmail.com",
+    pass: "parola",
+    birthday: "1985-03-12",
+    userRole: "USER",
+    adresses: "whetever1",
+    phoneNumbers: "0000000000",
+    technologies: [],
   };
 
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    putRequest(loginValues.email);
+    // postRequest(userDetails);
+    // setUsers([...users, userDetails]);
     setLoginValues(defaultLoginValues);
+    setIsLoggedIn(true);
   };
+
+  useEffect(() => {
+    const getUsers = async () => {
+      const response = await getRequest();
+      setUsers(response.data);
+    };
+    getUsers();
+  }, []);
+
+  if (isLoggedIn) {
+    return (
+      <UserList
+        title="User List"
+        imageUrl="https://static.prod01.ue1.p.pcomm.net/blackbaud/user_content/photos/000/006/6783/a6132a5cd55abcae190bc82567ca8a47-original-users.png"
+        users={users}
+      />
+    );
+  }
 
   return (
     <FormComponent
