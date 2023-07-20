@@ -4,7 +4,7 @@ import { FormContext } from "../../contexts/formContext";
 import { AppContext } from "../../contexts/appContext";
 import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
-import UserList from "../UserList/UserList.js";
+import { useNavigate } from "react-router-dom";
 import {
   putRequest,
   getRequest,
@@ -15,7 +15,9 @@ import {
 const Login = () => {
   const [inputPropsLogin] = useContext(FormContext);
   const { users, setUsers } = useContext(AppContext);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const { loginDetails, setLoginDetails } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const defaultLoginValues = {
     email: "",
@@ -46,43 +48,18 @@ const Login = () => {
     />
   );
 
-  const userDetails = {
-    firstName: "Peter",
-    lastName: "Borza",
-    email: "peter.peter@gmail.com",
-    pass: "parola",
-    birthday: "1985-03-12",
-    userRole: "USER",
-    adresses: "whetever1",
-    phoneNumbers: "0000000000",
-    technologies: [],
-  };
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    // postRequest(userDetails);
-    // setUsers([...users, userDetails]);
+
+    setLoginDetails(loginValues);
     setLoginValues(defaultLoginValues);
-    setIsLoggedIn(true);
   };
 
   useEffect(() => {
-    const getUsers = async () => {
-      const response = await getRequest();
-      setUsers(response.data);
-    };
-    getUsers();
-  }, []);
-
-  if (isLoggedIn) {
-    return (
-      <UserList
-        title="User List"
-        imageUrl="https://static.prod01.ue1.p.pcomm.net/blackbaud/user_content/photos/000/006/6783/a6132a5cd55abcae190bc82567ca8a47-original-users.png"
-        users={users}
-      />
-    );
-  }
+    if (loginDetails.email !== "" && loginDetails.pass !== "") {
+      navigate("/userList");
+    }
+  }, [loginDetails]);
 
   return (
     <FormComponent

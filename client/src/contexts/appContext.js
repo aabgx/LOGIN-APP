@@ -9,9 +9,27 @@ export const AppContextProvider = ({ children }) => {
     password: "",
   });
 
+  const [registerDetails, setRegisterDetails] = useState({
+    email: "",
+    password: "",
+    firstName: "",
+    lastName: "",
+    phone: "",
+    address: "",
+    birthday: "",
+    technologies: [],
+  });
+
   return (
     <AppContext.Provider
-      value={{ users, setUsers, loginDetails, setLoginDetails }}
+      value={{
+        users,
+        setUsers,
+        loginDetails,
+        setLoginDetails,
+        registerDetails,
+        setRegisterDetails,
+      }}
     >
       {children}
     </AppContext.Provider>
