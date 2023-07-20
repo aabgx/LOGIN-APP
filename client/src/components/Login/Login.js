@@ -59,6 +59,9 @@ const Login = () => {
     if (loginDetails.email !== "" && loginDetails.pass !== "") {
       navigate("/userList");
     }
+    // else{
+    //   navigate("*");
+    // }
   }, [loginDetails]);
 
   return (

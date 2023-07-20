@@ -1,6 +1,5 @@
 import React from "react";
 import "./UserList.css";
-import { useRef, useEffect } from "react";
 
 const UserList = ({ title, imageUrl, users }) => {
   return (
