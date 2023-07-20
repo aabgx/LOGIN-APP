@@ -1,12 +1,23 @@
 import React, { useState, useContext, useEffect } from "react";
 import Input from "../Input";
 import { FormContext } from "../../contexts/formContext";
+import { AppContext } from "../../contexts/appContext";
 import useValidation from "../../hooks/useValidation";
 import FormComponent from "../FormComponent/FormComponent";
-import axiosInstance from "../../services/axios";
+import { useNavigate } from "react-router-dom";
+import {
+  putRequest,
+  getRequest,
+  deleteRequest,
+  postRequest,
+} from "../../services/requests";
 
 const Login = () => {
   const [inputPropsLogin] = useContext(FormContext);
+  const { users, setUsers } = useContext(AppContext);
+  const { loginDetails, setLoginDetails } = useContext(AppContext);
+
+  const navigate = useNavigate();
 
   const defaultLoginValues = {
     email: "",
@@ -37,30 +48,21 @@ const Login = () => {
     />
   );
 
-  const putRequest = async function (email) {
-    try {
-      const response = await axiosInstance.put(`/users/${email}`, {
-        firstName: "Peter",
-        lastName: "Borza",
-        email: email,
-        pass: "parola",
-        birthday: "1985-03-12",
-        userRole: "USER",
-        adresses: "whetever1",
-        phoneNumbers: "0000000000",
-        technologies: [],
-      });
-      console.log(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   const onSubmitHandler = (e) => {
     e.preventDefault();
-    putRequest(loginValues.email);
+
+    setLoginDetails(loginValues);
     setLoginValues(defaultLoginValues);
   };
+
+  useEffect(() => {
+    if (loginDetails.email !== "" && loginDetails.pass !== "") {
+      navigate("/userList");
+    }
+    // else{
+    //   navigate("*");
+    // }
+  }, [loginDetails]);
 
   return (
     <FormComponent

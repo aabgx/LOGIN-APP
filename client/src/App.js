@@ -1,39 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./App.css";
-import Login from "./components/Login";
-import Register from "./components/Register";
-import axiosInstance from "./services/axios";
+import Navigation from "./components/Navigation/Navigation";
+import { Routes, Route, Link } from "react-router-dom";
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
+import UserListWrapper from "./components/UserList/UserListWrapper";
 
 function App() {
-  const [isLogin, setIsLogin] = useState(true);
-  const buttonText = isLogin
-    ? "Don't have an account? Sign up"
-    : "Have an account? Log in";
-
-  // useEffect(() => {
-  //   async function makeCall() {
-  //     try {
-  //       const response = await axiosInstance.get("/users");
-  //       console.log(response);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   }
-  //   makeCall();
-  // }, []);
-
-  const handleToggle = () => {
-    setIsLogin(!isLogin);
-  };
-
   return (
     <div className="App">
-      {isLogin ? <Login /> : <Register />}
-      <div className="switch">
-        <button className="switchForm" onClick={handleToggle}>
-          {buttonText}
-        </button>
-      </div>
+      <Navigation />
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/userList" element={<UserListWrapper />} />
+        <Route path="*" element={<div> 404 </div>} />
+      </Routes>
     </div>
   );
 }
