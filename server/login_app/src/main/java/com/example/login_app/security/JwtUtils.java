@@ -4,15 +4,20 @@ import com.example.login_app.dto.UserDetailsDTO;
 import com.example.login_app.entity.User;
 import com.example.login_app.entity.UserRole;
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.io.Decoders;
+import io.jsonwebtoken.security.Keys;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import java.security.Signature;
+import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
+import java.util.Map;
+
+import static javax.xml.crypto.dsig.Transform.BASE64;
 
 @Component
 public class JwtUtils {
@@ -23,6 +28,10 @@ public class JwtUtils {
     @Value("${app.jwtExpirationMs}")
     private int jwtExpiration;
 
+    private Key getSigningKey() {
+        byte[] keyBytes = Decoders.BASE64.decode(jwtSecret);
+        return Keys.hmacShaKeyFor(keyBytes);
+    }
 
     public String generateJWT(User user){
         Date issuedAt = new Date();
@@ -31,7 +40,7 @@ public class JwtUtils {
                 .claim("authorities",user.getUserRole())
                 .setIssuedAt(issuedAt)
                 .setExpiration(new Date(issuedAt.getTime()+jwtExpiration))
-                .signWith(SignatureAlgorithm.HS512,jwtSecret)
+                .signWith(getSigningKey(),SignatureAlgorithm.HS256)
                 .compact();
     }
 

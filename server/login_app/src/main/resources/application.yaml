@@ -7,5 +7,5 @@ spring:
   show-sql: true
 
 app:
-  jwtSecret: secret
+  jwtSecret: 413F4428472B4B6250655368566D5970337336763979244226452948404D6351
   jwtExpirationMs: 86400000

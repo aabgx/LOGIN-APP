@@ -7,8 +7,15 @@ import java.util.Collection;
 
 public class UserDetailsDTO implements UserDetails {
     private String email;
+    private String password;
     private Collection<? extends GrantedAuthority> authorities;
-    public UserDetailsDTO(String email,Collection<? extends GrantedAuthority> authorities ){
+    public UserDetailsDTO(String email,String password, Collection<? extends GrantedAuthority> authorities ){
+        this.authorities = authorities;
+        this.email=email;
+        this.password=password;
+    }
+
+    public UserDetailsDTO(String email, Collection<? extends GrantedAuthority> authorities ){
         this.authorities = authorities;
         this.email=email;
     }
@@ -20,7 +27,7 @@ public class UserDetailsDTO implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
