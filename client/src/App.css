@@ -23,3 +23,38 @@
 .switch{
   height: 3rem;
 }
+
+
+.navbar {
+  background-color: #f2f2f2;
+  padding: 10px;
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.navbar-menu {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+}
+
+.navbar-link {
+  text-decoration: none;
+  color: #333;
+  padding: 10px;
+  margin-right: 10px;
+}
+
+.navbar-link:hover {
+  color: #555;
+}
+
+.content {
+  margin-top: 60px;
+}
+
+.btnText{
+  font-family: "Fredoka", sans-serif;
+}
