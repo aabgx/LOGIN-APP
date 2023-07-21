@@ -30,6 +30,10 @@ public class AuthController {
 
     @PostMapping("/login")
     public String loginUser(@RequestBody LoginDTO loginDTO){
+        //password not set = null
+        //token dpes not taken into consideration
+        // only login with peter =)))
+
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken( "peterrrrrr.peter@gmail.com","aaaaAAAA1111"));
 
         Optional<User> user = userRepository.findByEmail( "peterrrrrr.peter@gmail.com");
