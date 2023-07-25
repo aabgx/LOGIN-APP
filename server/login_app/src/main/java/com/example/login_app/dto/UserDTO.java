@@ -1,8 +1,7 @@
 package com.example.login_app.dto;
 
 import com.example.login_app.entity.UserRole;
-import jakarta.persistence.Column;
-import jakarta.persistence.ElementCollection;
+
 
 import java.time.LocalDate;
 import java.util.List;
